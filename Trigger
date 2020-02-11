@@ -1,0 +1,28 @@
+Sintaxe básica de criação da trigger PL/SQL.
+
+  CREATE [OR REPLACE ] TRIGGER nome_da_trigger 
+  {BEFORE | AFTER | INSTEAD OF } 
+  {INSERT [OR] | UPDATE [OR] | DELETE} 
+  [OF nome_da_coluna] 
+  ON nome_da_tabela
+  [FOR EACH ROW] 
+  WHEN (condição) 
+  DECLARE
+  //Declaracão de variáveis
+  BEGIN
+  //Corpo da Trigger
+  EXCEPTION
+  //Tratamento de Exceção
+  END;
+  
+
+Onde temos:
+
+    CREATE [OR REPLACE] TRIGGER nome_da_trigger: cria uma nova trigger ou sobrescreve uma já existente com o nome informado, que no caso é apresentado como nome_da_trigger.
+    {BEFORE | AFTER | INSTEAD OF }: aqui definimos quando a trigger deve ser executada. A cláusula INSTEAD OF é utilizada quando uma trigger é criada em uma view.
+    {INSERT [OR] | UPDATE [OR] | DELETE}: especifica a operação DML.
+    [OF nome_da_coluna]: especificamos aqui a coluna que deve ser atualizada.
+    ON nome_da_tabela: aqui especificamos o nome da tabela que será associada a trigger.
+    [REFERENCING OLD AS o NEW AS n]: neste ponto, permitimos a referência a valores novos e valores antigos para várias declarações DML, assim como seria o caso para o insert e o delete.
+    [FOR EACH ROW]: esta instrução especifica uma trigger no nível de linha. Neste caso, a trigger deveria ser escutada para cada linha afetada.
+    WHEN (condição): este trecho da instrução provê a condição para que a trigger seja disparada nas linhas. Esta cláusula só é válida para triggers em nível de linha.
