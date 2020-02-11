@@ -1,0 +1,33 @@
+CREATE OR REPLACE PROCEDURE nome_curso
+(v_codigo IN CURSO.CD_CURSO%TYPE,
+ v_nome IN varchar)
+is
+begin
+    update CURSO
+    set CURSO.NOME_CURSO = v_nome
+    where CURSO.CD_CURSO = v_codigo;
+end nome_curso;
+
+
+create or replace function get_municipio (v_codigo MUNICIPIO.CD_MUNICIPIO%TYPE)
+RETURN VARCHAR IS v_nome MUNICIPIO.NOME_MUNICIPIO%TYPE := '';
+BEGIN
+    SELECT NOME_MUNICIPIO
+    INTO v_nome
+    FROM MUNICIPIO
+    WHERE CD_MUNICIPIO = v_codigo;
+    RETURN v_nome;
+END get_municipio;
+
+
+create or replace trigger seguranca before insert or delete or update on prova
+begin
+    if (TO_CHAR(SYSDATE, 'DY') in ('sat', 'sun')) or
+    (TO_CHAR(SYSDATE, 'HH24') not between '08' and '18') then
+        if deleting then raise_application_error(-20502, 'descrição do erro');
+        elsif inserting then raise_application_error(-20500, 'descrição do erro');
+        elsif updating then raise_application_error(-20503, 'descrição do erro');
+        else raise_application_error(-20504, 'descrição do erro');
+        end if;
+    end if;
+end;
